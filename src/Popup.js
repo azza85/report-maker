@@ -1,9 +1,12 @@
 import React from 'react'
 import { PopupSelect } from './PopupSelect'
+import { PopupText } from './PopupText'
 
-export const Popup = ({closePopup}) => {
+export const Popup = ({form, closePopup, handleChange}) => {
+  // const { name } = form
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'} >
+      <PopupText question={'name'} value={form} handleChange={handleChange} />
       <div>
         <PopupSelect label={'test'} options={[
           {name: 'one', value: 1},
