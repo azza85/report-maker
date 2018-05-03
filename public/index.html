@@ -95,7 +95,7 @@ custom style
   margin-right: auto;
 }
 .lightboxwrap{
-  background: #fff;
+  background: rgb(0,0,0,0.2);
   height: 100%;
   flex-direction: column;
   justify-content: center;
@@ -105,23 +105,51 @@ custom style
   width: 100%;
 }
 .lightbox{
+  background: #fff;
   display: flex;
-  height: 300px;
   width: 300px;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
 }
+.lightboxContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 10px;
+}
+.lightboxContent > div {
+  padding: 0 0 20px 0
+}
 .properties, .remove{
   cursor: pointer
 }
-.remove {
+.properties {
+  position: absolute;
+  right: 15px;
+  top: -2px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.remove, .properties {
   float: right
+}
+.readonly .remove,
+.readonly .properties,
+.readonly .react-resizable-handle {
+  display: none
+}
+
+.readonly .react-grid-item {
+  border: medium none;
 }
 
 @media print {
   .App .list, .properties, .remove, .react-resizable-handle, pre{
     display: none
+  }
+  .react-grid-item {
+    border: medium none;
   }
 }
     </style>
