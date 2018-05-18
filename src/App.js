@@ -191,7 +191,7 @@ class App extends Component {
         style={removeStyle}
         onClick={this.onRemoveItem.bind(this, i)}
       >&#10006;</span>
-      <RenderComponent data={elementData}/>
+      <RenderComponent {...this.props} elementData={elementData}/>
     </div>
   }
 
@@ -278,9 +278,7 @@ class App extends Component {
 
     return (
       <div>
-        <div className={readOnly ? 'App readonly':'App'} style={{
-          display: 'flex'
-        }}>
+        <div className={readOnly ? 'App readonly':'App'} style={{display: 'flex'}}>
           <ul className={'list'}>
             {!readOnly && <button onClick={this.onAddItem}>{'Add Field'}</button>}
             <button onClick={this.onPrintView}>{'Toggle Print View'}</button>

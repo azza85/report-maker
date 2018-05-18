@@ -3,13 +3,28 @@ import { PopupSelect } from './PopupSelect'
 import { PopupText } from './PopupText'
 import { TableConfigs } from './TableConfigs'
 
+const objectDeepKeys = (obj) => {
+  return Object.keys(obj)
+    .filter(key => obj[key] instanceof Object)
+    .map(key => objectDeepKeys(obj[key]).map(k => `${key}.${k}`))
+    .reduce((x, y) => x.concat(y), Object.keys(obj))
+    .map(item => item)
+}
+const toTitleCase = (str)  => {
+    return str.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
 export const Popup = (props) => {
   const {form, formattedData, closePopup, handleChange} = props
   // const { name } = form
-  console.log(
-    'formattedData => ', formattedData,
-    'arr => ', Object.keys(formattedData).filter(item => formattedData[item] instanceof Array).map(item => item)
-  )
+  //console.log(
+  //  'formattedData => ', objectDeepKeys(formattedData),
+  //  'arr => ', Object.keys(formattedData).filter(item => formattedData[item] instanceof Array).map(item => item)
+  //)
+  const keySelect = objectDeepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, " ")).replace(/Id/g, "ID"), value: item}))
+
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'}>
       <div className={'lightboxContent'}>
@@ -23,7 +38,7 @@ export const Popup = (props) => {
           {name: 'Paragraph', value: 'paragraph'},
           {name: 'Image', value: 'image'}
         ]} />
-        {form.type === 'dataField' && <p>dataField</p>}
+        {form.type === 'dataField' && <PopupSelect handleChange={handleChange} name={'dataField'} value={form.dataField} label={'dataField'} options={keySelect} />}
         <PopupSelect handleChange={handleChange} name={'fontSize'} value={form.fontSize} label={'Font Size'} options={[
           {name: '', value: ''},
           {name: '8px', value: 8},
