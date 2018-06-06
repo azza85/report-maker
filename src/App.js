@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactGridLayout from 'react-grid-layout'
+import deepKeys from 'deep-keys'
 import { Popup } from './Popup'
 import { RenderComponent } from './RenderComponent'
 
@@ -273,7 +274,24 @@ class App extends Component {
       ...data,
       ...this.converArrayToObj(data, joinFields)
     }
-    //console.log('formattedData', formattedData)
+    const camelToDash = str => str.replace(/(^[A-Z])/, ([first]) => first).replace(/([A-Z])/g, ([letter]) => ` ${letter}`)
+    const underToSpace = str => str.replace(/_/g,' ')
+    const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1)
+    const formatDBFieldToStr = str => capitalizeFirstLetter(camelToDash(underToSpace(str)))
+
+    const firstData = Object.keys(data).map(item => ({[item]: data[item][0]}))
+    console.log('deepKeys', firstData,
+      deepKeys(firstData)
+      .map(item => item.split('.').slice(1))
+      .map((item) => ({
+        section: item[0] !== undefined ? formatDBFieldToStr(item[0]):'',
+        level1: item[1] !== undefined ? formatDBFieldToStr(item[1]):'',
+        level2: item[2] !== undefined ? formatDBFieldToStr(item[2]):'',
+        level3: item[3] !== undefined ? formatDBFieldToStr(item[3]):'',
+        level4: item[4] !== undefined ? formatDBFieldToStr(item[4]):''
+      })
+    ))
+
     //console.log('this', this.state)
 
     return (

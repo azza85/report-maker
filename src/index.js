@@ -5,10 +5,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
 
-const selectedplayer = []
-const disciplineAction = []
-const squad =  []
-const match = []
+
 
 const myData = {
   selectedplayer,
