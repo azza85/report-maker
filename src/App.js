@@ -96,7 +96,7 @@ class App extends Component {
          "fontSize": "20"
         },
         "n1": {
-         "name": "Competition Name",
+         "name": props.data.selectedplayer[0]['member']['first_name'],
          "type": "label",
          "fontSize": "14"
         },
@@ -154,7 +154,7 @@ class App extends Component {
 
   listToObjectByID (array, key, myObj) {
     return array !== undefined && array.length ? array.reduce((obj, item) => {
-      return myObj !== undefined ? {
+      return Object.keys(obj).length && myObj !== undefined ? {
         ...obj, [item[myObj][key]]: item
       } : {
         ...obj, [item[key]]: item
@@ -280,19 +280,63 @@ class App extends Component {
     const formatDBFieldToStr = str => capitalizeFirstLetter(camelToDash(underToSpace(str)))
 
     const firstData = Object.keys(data).map(item => ({[item]: data[item][0]}))
-    console.log('deepKeys', firstData,
-      deepKeys(firstData)
+    const setKeys = deepKeys(firstData,true)
       .map(item => item.split('.').slice(1))
       .map((item) => ({
         section: item[0] !== undefined ? formatDBFieldToStr(item[0]):'',
         level1: item[1] !== undefined ? formatDBFieldToStr(item[1]):'',
+        level1Key: item[1] !== undefined ? item[1]:'',
         level2: item[2] !== undefined ? formatDBFieldToStr(item[2]):'',
+        level2Key: item[2] !== undefined ? item[2]:'',
         level3: item[3] !== undefined ? formatDBFieldToStr(item[3]):'',
-        level4: item[4] !== undefined ? formatDBFieldToStr(item[4]):''
+        level3Key: item[3] !== undefined ? item[3]:'',
+        level4: item[4] !== undefined ? formatDBFieldToStr(item[4]):'',
+        level4Key: item[4] !== undefined ? item[4]:''
       })
-    ))
+    )
+    const createDataField = (section,arr) => {
+      if(arr.level4 !== ''){
+        return `['${section}'][0]['${arr.level1Key}']['${arr.level2Key}']['${arr.level3Key}']['${arr.level4Key}']`
+      }
+      if(arr.level3 !== ''){
+        return `['${section}'][0]['${arr.level1Key}']['${arr.level2Key}']['${arr.level3Key}']`
+      }
+      if(arr.level2 !== ''){
+        return `['${section}'][0]['${arr.level1Key}']['${arr.level2Key}']`
+      }
+      if(arr.level1 !== ''){
+        return `['${section}'][0]['${arr.level1Key}']`
+      }
+    }
+    const getDataLabel = (arr) => {
+      if(arr.level4 !== ''){
+        return arr.level4
+      }
+      if(arr.level3 !== ''){
+        return arr.level3
+      }
+      if(arr.level2 !== ''){
+        return arr.level2
+      }
+      if(arr.level1 !== ''){
+        return arr.level1
+      }
+    }
+    const sections = Object.keys(data).map(item => ({
+      key: item,
+      label: formatDBFieldToStr(item),
+      options: setKeys
+      .filter(filteredItem => filteredItem.section === formatDBFieldToStr(item))
+      .map(mappedItem => ({
+        label: getDataLabel(mappedItem) !== undefined ? getDataLabel(mappedItem):'',
+        value: createDataField(item,mappedItem) !== undefined ? createDataField(item,mappedItem):''
+      })
+    )
+    }))
 
-    //console.log('this', this.state)
+    console.log('sections',sections)
+    console.log('setKeys',setKeys)
+    console.log('data',data)
 
     return (
       <div>

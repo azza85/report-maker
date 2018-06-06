@@ -4,14 +4,33 @@ import './index.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
+const isInArray = (value, array)  => {
+  if (array !== undefined && value) {
+    return array.indexOf(value) > -1
+  }
+}
 
+const removeFromObj = (obj, items) => {
+  const fields = Object.keys(obj)
+  .filter(item => !isInArray(item, items))
+  return fields.reduce((fieldObj, field) => {
+    return Object.assign({},
+      fieldObj,
+      {[field]: obj[field]}
+    )
+  }, {})
+}
 
 
 const myData = {
   selectedplayer,
   disciplineAction,
   squad,
-  //match
+  matchDetails,
+  matchPlayerStatsTeam1,
+  matchTeamStatsTeam1,
+  matchPlayerStatsTeam2,
+  matchTeamStatsTeam2
 }
 /*
 * loop through these fields to make objects by this id where defined
