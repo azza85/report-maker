@@ -1,4 +1,5 @@
 import React from 'react'
+import deepKeys from 'deep-keys'
 import { PopupSelect } from './PopupSelect'
 import { PopupText } from './PopupText'
 import { TableConfigs } from './TableConfigs'
@@ -21,11 +22,10 @@ export const Popup = (props) => {
   const {form, formattedData, closePopup, handleChange} = props
   const { name } = form
   console.log(
-    'formattedData => ', objectDeepKeys(formattedData)
+    'formattedData => ', deepKeys(formattedData)
   )
-  const keySelect = objectDeepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, " ")).replace(/Id/g, "ID"), value: item}))
+  const keySelect = deepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, " ")).replace(/Id/g, "ID"), value: item}))
   //const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
-  console.log('formattedData',formattedData)
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'}>
       <div className={'lightboxContent'}>

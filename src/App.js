@@ -10,7 +10,7 @@ class App extends Component {
     // const baseArr = [0, 1, 2, 3, 4]
     const baseArr = [
       {
-       "w": 4,
+       "w": 11,
        "h": 3,
        "x": 0,
        "y": 0,
@@ -19,16 +19,16 @@ class App extends Component {
        "static": false
       },
       {
-       "w": 4,
+       "w": 14,
        "h": 1,
-       "x": 8,
+       "x": 16,
        "y": 0,
        "i": "n1",
        "moved": false,
        "static": false
       },
       {
-       "w": 4,
+       "w": 11,
        "h": 1,
        "x": 0,
        "y": 3,
@@ -37,47 +37,56 @@ class App extends Component {
        "static": false
       },
       {
-       "w": 4,
+       "w": 7,
        "h": 1,
-       "x": 8,
-       "y": 1,
+       "x": 16,
+       "y": 2,
        "i": "n3",
        "moved": false,
        "static": false
       },
       {
-       "w": 2,
+       "w": 6,
        "h": 1,
-       "x": 8,
+       "x": 24,
        "y": 2,
        "i": "n4",
        "moved": false,
        "static": false
       },
       {
-       "w": 2,
+       "w": 14,
        "h": 1,
-       "x": 10,
-       "y": 2,
+       "x": 16,
+       "y": 3,
        "i": "n5",
        "moved": false,
        "static": false
       },
       {
-       "w": 4,
+       "w": 6,
        "h": 1,
-       "x": 8,
-       "y": 3,
+       "x": 16,
+       "y": 1,
        "i": "n6",
        "moved": false,
        "static": false
       },
       {
-       "w": 4,
+       "w": 2,
        "h": 1,
-       "x": 8,
-       "y": 3,
+       "x": 22,
+       "y": 1,
        "i": "n7",
+       "moved": false,
+       "static": false
+      },
+      {
+       "w": 6,
+       "h": 1,
+       "x": 24,
+       "y": 1,
+       "i": "n8",
        "moved": false,
        "static": false
       }
@@ -86,7 +95,7 @@ class App extends Component {
       currentItem:'',
       readOnly: false,
       data: [],
-      cols: 12,
+      cols: 30,
       rowHeight: 20,
       items: baseArr.map(function (i, key, list) {
         return {
@@ -105,16 +114,17 @@ class App extends Component {
          "fontSize": "20"
         },
         "n1": {
-        "dataField": "selectedplayer.member.first_name",
-         "name": "Name",
+         "dataField": "match.comp.name",
+         "name": "Comp Name",
          "type": "dataField",
          "fontSize": "14"
         },
         "n2": {
          "name": "Team Name",
-         "type": "label",
+         "type": "dataField",
          "fontSize": "14",
-         "signLine": "1"
+         "signLine": "1",
+         "dataField": "matchDetails.team1.name"
         },
         "n3": {
          "name": "Team 1 Vs Team 2",
@@ -128,20 +138,28 @@ class App extends Component {
         },
         "n5": {
          "name": "Kick Off 3:00pm",
-         "type": "label",
-         "fontSize": "12"
+         "type": "dataField",
+         "fontSize": "12",
+         "dataField": "matchDetails.venue.name"
         },
         "n6": {
-         "name": "Venue Name",
-         "type": "label",
-         "fontSize": "12"
+         "name": "Team 1 Name",
+         "type": "dataField",
+         "fontSize": "12",
+         "dataField": "match.team1.name"
         },
         "n7": {
-          "dataField": "match.team1.name",
-          "name": "Venue Name",
-          "type": "dataField",
-          "fontSize": "12"
-         }
+         "name": "VS",
+         "type": "label",
+         "fontSize": "12",
+         "style": "textAllign: center"
+        },
+        "n8": {
+         "name": "Team 2 Name",
+         "type": "dataField",
+         "fontSize": "12",
+         "dataField": "match.team2.name"
+        }
        },
       newCounter: baseArr.length,
       showPopup: false,
@@ -289,76 +307,16 @@ class App extends Component {
       ...data,
       //...this.converArrayToObj(data, joinFields)
     }
-    const camelToDash = str => str.replace(/(^[A-Z])/, ([first]) => first).replace(/([A-Z])/g, ([letter]) => ` ${letter}`)
-    const underToSpace = str => str.replace(/_/g,' ')
-    const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1)
-    const formatDBFieldToStr = str => capitalizeFirstLetter(camelToDash(underToSpace(str)))
-
-    const firstData = Object.keys(data).map(item => ({[item]: data[item][0]}))
-    const setKeys = deepKeys(firstData,true)
-      .map(item => item.split('.').slice(1))
-      .map((item) => ({
-        section: item[0] !== undefined ? formatDBFieldToStr(item[0]):'',
-        level1: item[1] !== undefined ? formatDBFieldToStr(item[1]):'',
-        level1Key: item[1] !== undefined ? item[1]:'',
-        level2: item[2] !== undefined ? formatDBFieldToStr(item[2]):'',
-        level2Key: item[2] !== undefined ? item[2]:'',
-        level3: item[3] !== undefined ? formatDBFieldToStr(item[3]):'',
-        level3Key: item[3] !== undefined ? item[3]:'',
-        level4: item[4] !== undefined ? formatDBFieldToStr(item[4]):'',
-        level4Key: item[4] !== undefined ? item[4]:''
-      })
-    )
-    const createDataField = (section,arr) => {
-      if(arr.level4 !== ''){
-        return `['${section}'][0]['${arr.level1Key}']['${arr.level2Key}']['${arr.level3Key}']['${arr.level4Key}']`
-      }
-      if(arr.level3 !== ''){
-        return `['${section}'][0]['${arr.level1Key}']['${arr.level2Key}']['${arr.level3Key}']`
-      }
-      if(arr.level2 !== ''){
-        return `['${section}'][0]['${arr.level1Key}']['${arr.level2Key}']`
-      }
-      if(arr.level1 !== ''){
-        return `['${section}'][0]['${arr.level1Key}']`
-      }
-    }
-    const getDataLabel = (arr) => {
-      if(arr.level4 !== ''){
-        return arr.level4
-      }
-      if(arr.level3 !== ''){
-        return arr.level3
-      }
-      if(arr.level2 !== ''){
-        return arr.level2
-      }
-      if(arr.level1 !== ''){
-        return arr.level1
-      }
-    }
-    const sections = Object.keys(data).map(item => ({
-      key: item,
-      label: formatDBFieldToStr(item),
-      options: setKeys
-      .filter(filteredItem => filteredItem.section === formatDBFieldToStr(item))
-      .map(mappedItem => ({
-        label: getDataLabel(mappedItem) !== undefined ? getDataLabel(mappedItem):'',
-        value: createDataField(item,mappedItem) !== undefined ? createDataField(item,mappedItem):''
-      })
-    )
-    }))
-    console.log('sections',sections)
 
     return (
       <div>
-        <div className={readOnly ? 'App readonly':'App'} style={{display: 'flex'}}>
+        <div className={readOnly ? 'App readonly':'App'} style={{display: 'flex', flexDirection: 'column'}}>
           <ul className={'list'}>
             {!readOnly && <button onClick={this.onAddItem}>{'Add Field'}</button>}
             <button onClick={this.onPrintView}>{'Toggle Print View'}</button>
           </ul>
           <ReactGridLayout onLayoutChange={this.onLayoutChange}
-            className='layout' cols={cols} rowHeight={rowHeight} width={595}>
+            className='layout' cols={cols} rowHeight={rowHeight} width={794}>
             {this.state.items.map(el => this.createElement(el))}
           </ReactGridLayout>
           {showPopup
