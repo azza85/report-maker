@@ -21,17 +21,7 @@ const removeFromObj = (obj, items) => {
   }, {})
 }
 
-
-const myData = {
-  selectedplayer,
-  disciplineAction,
-  squad,
-  matchDetails,
-  matchPlayerStatsTeam1,
-  matchTeamStatsTeam1,
-  matchPlayerStatsTeam2,
-  matchTeamStatsTeam2
-}
+const myData = {}
 /*
 * loop through these fields to make objects by this id where defined
 * console.log('test',Object.keys(test).map(item => test[item]))

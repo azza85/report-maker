@@ -71,6 +71,15 @@ class App extends Component {
        "i": "n6",
        "moved": false,
        "static": false
+      },
+      {
+       "w": 4,
+       "h": 1,
+       "x": 8,
+       "y": 3,
+       "i": "n7",
+       "moved": false,
+       "static": false
       }
      ]
     this.state = {
@@ -96,8 +105,9 @@ class App extends Component {
          "fontSize": "20"
         },
         "n1": {
-         "name": props.data.selectedplayer[0]['member']['first_name'],
-         "type": "label",
+        "dataField": "selectedplayer.member.first_name",
+         "name": "Name",
+         "type": "dataField",
          "fontSize": "14"
         },
         "n2": {
@@ -125,7 +135,13 @@ class App extends Component {
          "name": "Venue Name",
          "type": "label",
          "fontSize": "12"
-        }
+        },
+        "n7": {
+          "dataField": "match.team1.name",
+          "name": "Venue Name",
+          "type": "dataField",
+          "fontSize": "12"
+         }
        },
       newCounter: baseArr.length,
       showPopup: false,
@@ -143,13 +159,12 @@ class App extends Component {
     this.onPrintView = this.onPrintView.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    console.log('nextProps')
-    if (Object.keys(nextProps.data).length && this.state.data.length === 0) {
-      this.setState({
-        data: this.converArrayToObj(nextProps.data, nextProps.joinFields)
-      })
-    }
+  componentDidMount(){
+    this.setState(function(prevState, props) {
+      return {
+        data: prevState.data.length === 0 ? props.data:prevState.data
+      }
+    });
   }
 
   listToObjectByID (array, key, myObj) {
@@ -172,6 +187,7 @@ class App extends Component {
         }
       }, {})
   }
+
   createElement (el) {
     const { itemData } = this.state
     const removeStyle = {
@@ -207,7 +223,6 @@ class App extends Component {
         }
       }
     })
-    console.log('cellProperties', this.state.itemData)
   }
 
   closePopup () {
@@ -272,7 +287,7 @@ class App extends Component {
     itemData, currentItem } = this.state
     const formattedData = {
       ...data,
-      ...this.converArrayToObj(data, joinFields)
+      //...this.converArrayToObj(data, joinFields)
     }
     const camelToDash = str => str.replace(/(^[A-Z])/, ([first]) => first).replace(/([A-Z])/g, ([letter]) => ` ${letter}`)
     const underToSpace = str => str.replace(/_/g,' ')
@@ -333,10 +348,7 @@ class App extends Component {
       })
     )
     }))
-
     console.log('sections',sections)
-    console.log('setKeys',setKeys)
-    console.log('data',data)
 
     return (
       <div>

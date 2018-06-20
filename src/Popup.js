@@ -16,15 +16,16 @@ const toTitleCase = (str)  => {
     });
 }
 
+const checkUndefined = (obj,key) => obj !== undefined ? obj[key]:''
 export const Popup = (props) => {
   const {form, formattedData, closePopup, handleChange} = props
-  // const { name } = form
-  //console.log(
-  //  'formattedData => ', objectDeepKeys(formattedData),
-  //  'arr => ', Object.keys(formattedData).filter(item => formattedData[item] instanceof Array).map(item => item)
-  //)
+  const { name } = form
+  console.log(
+    'formattedData => ', objectDeepKeys(formattedData)
+  )
   const keySelect = objectDeepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, " ")).replace(/Id/g, "ID"), value: item}))
-
+  //const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
+  console.log('formattedData',formattedData)
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'}>
       <div className={'lightboxContent'}>
