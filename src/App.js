@@ -10,89 +10,116 @@ class App extends Component {
     // const baseArr = [0, 1, 2, 3, 4]
     const baseArr = [
       {
-       "w": 11,
-       "h": 3,
-       "x": 0,
-       "y": 0,
-       "i": "n0",
-       "moved": false,
-       "static": false
+        'w': 11,
+        'h': 3,
+        'x': 0,
+        'y': 0,
+        'i': 'n0',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 14,
-       "h": 1,
-       "x": 16,
-       "y": 0,
-       "i": "n1",
-       "moved": false,
-       "static": false
+        'w': 14,
+        'h': 1,
+        'x': 16,
+        'y': 0,
+        'i': 'n1',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 11,
-       "h": 1,
-       "x": 0,
-       "y": 3,
-       "i": "n2",
-       "moved": false,
-       "static": false
+        'w': 11,
+        'h': 1,
+        'x': 0,
+        'y': 3,
+        'i': 'n2',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 7,
-       "h": 1,
-       "x": 16,
-       "y": 2,
-       "i": "n3",
-       "moved": false,
-       "static": false
+        'w': 7,
+        'h': 1,
+        'x': 16,
+        'y': 2,
+        'i': 'n3',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 6,
-       "h": 1,
-       "x": 24,
-       "y": 2,
-       "i": "n4",
-       "moved": false,
-       "static": false
+        'w': 6,
+        'h': 1,
+        'x': 24,
+        'y': 2,
+        'i': 'n4',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 14,
-       "h": 1,
-       "x": 16,
-       "y": 3,
-       "i": "n5",
-       "moved": false,
-       "static": false
+        'w': 14,
+        'h': 1,
+        'x': 16,
+        'y': 3,
+        'i': 'n5',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 6,
-       "h": 1,
-       "x": 16,
-       "y": 1,
-       "i": "n6",
-       "moved": false,
-       "static": false
+        'w': 6,
+        'h': 1,
+        'x': 16,
+        'y': 1,
+        'i': 'n6',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 2,
-       "h": 1,
-       "x": 22,
-       "y": 1,
-       "i": "n7",
-       "moved": false,
-       "static": false
+        'w': 2,
+        'h': 1,
+        'x': 22,
+        'y': 1,
+        'i': 'n7',
+        'moved': false,
+        'static': false
       },
       {
-       "w": 6,
-       "h": 1,
-       "x": 24,
-       "y": 1,
-       "i": "n8",
-       "moved": false,
-       "static": false
+        'w': 6,
+        'h': 1,
+        'x': 24,
+        'y': 1,
+        'i': 'n8',
+        'moved': false,
+        'static': false
+      },
+      {
+        'w': 10,
+        'h': 1,
+        'x': 0,
+        'y': 4,
+        'i': 'n9',
+        'moved': false,
+        'static': false
+      },
+      {
+        'w': 10,
+        'h': 1,
+        'x': 10,
+        'y': 4,
+        'i': 'n11',
+        'moved': false,
+        'static': false
+      },
+      {
+        'w': 10,
+        'h': 1,
+        'x': 20,
+        'y': 4,
+        'i': 'n10',
+        'moved': false,
+        'static': false
       }
-     ]
+    ]
     this.state = {
-      currentItem:'',
+      currentItem: '',
       readOnly: false,
       data: [],
       cols: 30,
@@ -100,67 +127,89 @@ class App extends Component {
       items: baseArr.map(function (i, key, list) {
         return {
           i: `n${key}`,
-          x: i.x !== undefined ? i.x:0,
-          y: i.y !== undefined ? i.y:0,
-          w: i.w !== undefined ? i.w:2,
-          h: i.h !== undefined ? i.h:2,
-          add: key+1 === (list.length - 1).toString()
+          x: i.x !== undefined ? i.x : 0,
+          y: i.y !== undefined ? i.y : 0,
+          w: i.w !== undefined ? i.w : 2,
+          h: i.h !== undefined ? i.h : 2,
+          add: key + 1 === (list.length - 1).toString()
         }
       }),
       itemData: {
-        "n0": {
-         "name": "Team Nomination",
-         "type": "label",
-         "fontSize": "20"
+        'n0': {
+          'name': 'Team Nomination',
+          'type': 'label',
+          'fontSize': '20'
         },
-        "n1": {
-         "dataField": "match.comp.name",
-         "name": "Comp Name",
-         "type": "dataField",
-         "fontSize": "14"
+        'n1': {
+          'dataField': 'match.comp.name',
+          'name': 'Comp Name',
+          'type': 'dataField',
+          'fontSize': '14',
+          'align': 'right'
         },
-        "n2": {
-         "name": "Team Name",
-         "type": "dataField",
-         "fontSize": "14",
-         "signLine": "1",
-         "dataField": "matchDetails.team1.name"
+        'n2': {
+          'name': 'Team Name',
+          'type': 'dataField',
+          'fontSize': '14',
+          'dataField': 'matchDetails.team1.name'
         },
-        "n3": {
-         "name": "Team 1 Vs Team 2",
-         "type": "label",
-         "fontSize": "12"
+        'n3': {
+          'name': 'Team 1 Vs Team 2',
+          'type': 'dataField',
+          'fontSize': '12',
+          'dataField': 'match.match_datetime'
         },
-        "n4": {
-         "name": "2018-05-13",
-         "type": "label",
-         "fontSize": "12"
+        'n4': {
+          'name': '2018-05-13',
+          'type': 'label',
+          'fontSize': '12'
         },
-        "n5": {
-         "name": "Kick Off 3:00pm",
-         "type": "dataField",
-         "fontSize": "12",
-         "dataField": "matchDetails.venue.name"
+        'n5': {
+          'name': 'Kick Off 3:00pm',
+          'type': 'dataField',
+          'fontSize': '12',
+          'dataField': 'matchDetails.venue.name',
+          'align': 'right'
         },
-        "n6": {
-         "name": "Team 1 Name",
-         "type": "dataField",
-         "fontSize": "12",
-         "dataField": "match.team1.name"
+        'n6': {
+          'name': 'Team 1 Name',
+          'type': 'dataField',
+          'fontSize': '12',
+          'dataField': 'match.team1.name',
+          'align': 'right'
         },
-        "n7": {
-         "name": "VS",
-         "type": "label",
-         "fontSize": "12",
-         "style": "textAllign: center"
+        'n7': {
+          'name': 'VS',
+          'type': 'label',
+          'fontSize': '12',
+          'align': 'center'
         },
-        "n8": {
-         "name": "Team 2 Name",
-         "type": "dataField",
-         "fontSize": "12",
-         "dataField": "match.team2.name"
+        'n8': {
+          'name': 'Team 2 Name',
+          'type': 'dataField',
+          'fontSize': '12',
+          'dataField': 'match.team2.name',
+          'align': 'right'
+        },
+        'n9': {
+          'type': 'label',
+          'name': 'Shirt Colour:',
+          'fontSize': '12',
+          'signLine': 'right'
+        },
+        'n10': {
+          'type': 'label',
+          'name': 'Shorts Colour:',
+          'fontSize': '12',
+          'signLine': 'right'
+        },
+        'n11': {
+          'type': 'label',
+          'name': 'Socks:',
+          'fontSize': '12',
+          'signLine': 'right'
         }
-       },
+      },
       newCounter: baseArr.length,
       showPopup: false,
       textFields: ['label'],
@@ -177,12 +226,12 @@ class App extends Component {
     this.onPrintView = this.onPrintView.bind(this)
   }
 
-  componentDidMount(){
-    this.setState(function(prevState, props) {
+  componentDidMount () {
+    this.setState(function (prevState, props) {
       return {
-        data: prevState.data.length === 0 ? props.data:prevState.data
+        data: prevState.data.length === 0 ? props.data : prevState.data
       }
-    });
+    })
   }
 
   listToObjectByID (array, key, myObj) {
@@ -226,7 +275,7 @@ class App extends Component {
         style={removeStyle}
         onClick={this.onRemoveItem.bind(this, i)}
       >&#10006;</span>
-      <RenderComponent {...this.props} elementData={elementData}/>
+      <RenderComponent {...this.props} elementData={elementData} />
     </div>
   }
 
@@ -277,7 +326,7 @@ class App extends Component {
     })
   }
 
-  onPrintView(){
+  onPrintView () {
     this.setState({
       readOnly: !this.state.readOnly
     })
@@ -300,17 +349,17 @@ class App extends Component {
     })
   }
   render () {
-    const { data, joinFields } = this.props
+    const { data } = this.props
     const { cols, rowHeight, showPopup, readOnly,
-    itemData, currentItem } = this.state
+      itemData, currentItem } = this.state
     const formattedData = {
-      ...data,
-      //...this.converArrayToObj(data, joinFields)
+      ...data
+      // ...this.converArrayToObj(data, joinFields)
     }
 
     return (
       <div>
-        <div className={readOnly ? 'App readonly':'App'} style={{display: 'flex', flexDirection: 'column'}}>
+        <div className={readOnly ? 'App readonly' : 'App'} style={{display: 'flex', flexDirection: 'column'}}>
           <ul className={'list'}>
             {!readOnly && <button onClick={this.onAddItem}>{'Add Field'}</button>}
             <button onClick={this.onPrintView}>{'Toggle Print View'}</button>

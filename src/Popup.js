@@ -11,21 +11,21 @@ const objectDeepKeys = (obj) => {
     .reduce((x, y) => x.concat(y), Object.keys(obj))
     .map(item => item)
 }
-const toTitleCase = (str)  => {
-    return str.replace(/\w\S*/g, function(txt){
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-    });
+const toTitleCase = (str) => {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+  })
 }
 
-const checkUndefined = (obj,key) => obj !== undefined ? obj[key]:''
+const checkUndefined = (obj, key) => obj !== undefined ? obj[key] : ''
 export const Popup = (props) => {
   const {form, formattedData, closePopup, handleChange} = props
   const { name } = form
   console.log(
     'formattedData => ', deepKeys(formattedData)
   )
-  const keySelect = deepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, " ")).replace(/Id/g, "ID"), value: item}))
-  //const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
+  const keySelect = deepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, ' ')).replace(/Id/g, 'ID'), value: item}))
+  // const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'}>
       <div className={'lightboxContent'}>
@@ -39,7 +39,7 @@ export const Popup = (props) => {
           {name: 'Paragraph', value: 'paragraph'},
           {name: 'Image', value: 'image'}
         ]} />
-        {form.type === 'dataField' && <PopupSelect handleChange={handleChange} name={'dataField'} value={form.dataField} label={'dataField'} options={keySelect} />}
+        {form.type === 'dataField' && <PopupSelect handleChange={handleChange} name={'dataField'} value={form.dataField} label={'Data Field'} options={keySelect} />}
         <PopupSelect handleChange={handleChange} name={'fontSize'} value={form.fontSize} label={'Font Size'} options={[
           {name: '', value: ''},
           {name: '8px', value: 8},
@@ -50,12 +50,18 @@ export const Popup = (props) => {
           {name: '18px', value: 18},
           {name: '20px', value: 20}
         ]} />
+        <PopupSelect handleChange={handleChange} name={'align'} value={form.align} label={'Text Align'} options={[
+          {name: '', value: ''},
+          {name: 'left', value: 'left'},
+          {name: 'right', value: 'right'},
+          {name: 'center', value: 'center'}
+        ]} />
         <PopupSelect handleChange={handleChange} name={'signLine'} value={form.signLine} label={'Sign Line'} options={[
-          {name: 'None', value: 1},
-          {name: 'Above', value: 2},
-          {name: 'Right', value: 3},
-          {name: 'Bottom', value: 4},
-          {name: 'Left', value: 5}
+          {name: '', value: ''},
+          {name: 'Top', value: 'top'},
+          {name: 'Right', value: 'right'},
+          {name: 'Bottom', value: 'bottom'},
+          {name: 'Left', value: 'left'}
         ]} />
         <TableConfigs {...props} />
       </div>
