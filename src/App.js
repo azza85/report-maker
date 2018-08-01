@@ -7,117 +7,8 @@ import { RenderComponent } from './RenderComponent'
 class App extends Component {
   constructor (props) {
     super(props)
-    // const baseArr = [0, 1, 2, 3, 4]
-    const baseArr = [
-      {
-        'w': 11,
-        'h': 3,
-        'x': 0,
-        'y': 0,
-        'i': 'n0',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 14,
-        'h': 1,
-        'x': 16,
-        'y': 0,
-        'i': 'n1',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 11,
-        'h': 1,
-        'x': 0,
-        'y': 3,
-        'i': 'n2',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 7,
-        'h': 1,
-        'x': 16,
-        'y': 2,
-        'i': 'n3',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 6,
-        'h': 1,
-        'x': 24,
-        'y': 2,
-        'i': 'n4',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 14,
-        'h': 1,
-        'x': 16,
-        'y': 3,
-        'i': 'n5',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 6,
-        'h': 1,
-        'x': 16,
-        'y': 1,
-        'i': 'n6',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 2,
-        'h': 1,
-        'x': 22,
-        'y': 1,
-        'i': 'n7',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 6,
-        'h': 1,
-        'x': 24,
-        'y': 1,
-        'i': 'n8',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 10,
-        'h': 1,
-        'x': 0,
-        'y': 4,
-        'i': 'n9',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 10,
-        'h': 1,
-        'x': 10,
-        'y': 4,
-        'i': 'n11',
-        'moved': false,
-        'static': false
-      },
-      {
-        'w': 10,
-        'h': 1,
-        'x': 20,
-        'y': 4,
-        'i': 'n10',
-        'moved': false,
-        'static': false
-      }
-    ]
+    const baseArr = [0, 1, 2, 3, 4]
+
     this.state = {
       currentItem: '',
       readOnly: false,
@@ -134,82 +25,7 @@ class App extends Component {
           add: key + 1 === (list.length - 1).toString()
         }
       }),
-      itemData: {
-        'n0': {
-          'name': 'Team Nomination',
-          'type': 'label',
-          'fontSize': '20'
-        },
-        'n1': {
-          'dataField': 'match.comp.name',
-          'name': 'Comp Name',
-          'type': 'dataField',
-          'fontSize': '14',
-          'align': 'right'
-        },
-        'n2': {
-          'name': 'Team Name',
-          'type': 'dataField',
-          'fontSize': '14',
-          'dataField': 'matchDetails.team1.name'
-        },
-        'n3': {
-          'name': 'Team 1 Vs Team 2',
-          'type': 'dataField',
-          'fontSize': '12',
-          'dataField': 'match.match_datetime'
-        },
-        'n4': {
-          'name': '2018-05-13',
-          'type': 'label',
-          'fontSize': '12'
-        },
-        'n5': {
-          'name': 'Kick Off 3:00pm',
-          'type': 'dataField',
-          'fontSize': '12',
-          'dataField': 'matchDetails.venue.name',
-          'align': 'right'
-        },
-        'n6': {
-          'name': 'Team 1 Name',
-          'type': 'dataField',
-          'fontSize': '12',
-          'dataField': 'match.team1.name',
-          'align': 'right'
-        },
-        'n7': {
-          'name': 'VS',
-          'type': 'label',
-          'fontSize': '12',
-          'align': 'center'
-        },
-        'n8': {
-          'name': 'Team 2 Name',
-          'type': 'dataField',
-          'fontSize': '12',
-          'dataField': 'match.team2.name',
-          'align': 'right'
-        },
-        'n9': {
-          'type': 'label',
-          'name': 'Shirt Colour:',
-          'fontSize': '12',
-          'signLine': 'right'
-        },
-        'n10': {
-          'type': 'label',
-          'name': 'Shorts Colour:',
-          'fontSize': '12',
-          'signLine': 'right'
-        },
-        'n11': {
-          'type': 'label',
-          'name': 'Socks:',
-          'fontSize': '12',
-          'signLine': 'right'
-        }
-      },
+      itemData: {},
       newCounter: baseArr.length,
       showPopup: false,
       textFields: ['label'],
@@ -265,7 +81,7 @@ class App extends Component {
     }
     const i = el.add ? '+' : el.i
     const elementData = itemData[i] !== undefined ? itemData[i] : {}
-    return <div key={i} data-grid={el}>
+    return <div className={'grabbable'} key={i} data-grid={el}>
       <span
         className='properties'
         onClick={this.cellProperties.bind(this, el)}
@@ -349,7 +165,7 @@ class App extends Component {
     })
   }
   render () {
-    const { data } = this.props
+    const { data, listData } = this.props
     const { cols, rowHeight, showPopup, readOnly,
       itemData, currentItem } = this.state
     const formattedData = {
@@ -369,7 +185,7 @@ class App extends Component {
             {this.state.items.map(el => this.createElement(el))}
           </ReactGridLayout>
           {showPopup
-            ? <Popup formattedData={formattedData} form={itemData[currentItem]} handleChange={this.handleChange} closePopup={this.closePopup} /> : null}
+            ? <Popup listData={listData} formattedData={formattedData} form={itemData[currentItem]} handleChange={this.handleChange} closePopup={this.closePopup} /> : null}
         </div>
         <pre>{JSON.stringify(this.state.items, null, ' ')}</pre>
         <pre>{JSON.stringify(this.state.itemData, null, ' ')}</pre>

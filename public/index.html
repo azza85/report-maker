@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#aaa">
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -11,9 +11,24 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <style>
+      body{
+        background-color: #aaa;
+      }
     .react-grid-layout {
   position: relative;
   transition: height 200ms ease;
+}
+.grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }
 .react-grid-item {
   border: 1px solid #000;
@@ -87,7 +102,7 @@
 custom style
 */
 .layout{
-  background: lightblue;
+  background: #fff;
   width: 794px;
   height: 1123px;
   /*
@@ -111,7 +126,7 @@ custom style
 .lightbox{
   background: #fff;
   display: flex;
-  width: 300px;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
@@ -146,6 +161,15 @@ custom style
 
 .readonly .react-grid-item {
   border: medium none;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table td, table th {
+  border: 1px solid #000;
+  height: 20px;
 }
 
 @media print {

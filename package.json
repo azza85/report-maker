@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "commitizen": "^2.9.6",
+    "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
-    "react-scripts": "1.1.1",
-    "standard": "^11.0.0"
+    "react-scripts": "1.1.4",
+    "standard": "^11.0.1"
   },
   "dependencies": {
     "deep-keys": "^0.5.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "range-inclusive": "^1.0.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.1.1",
     "react-grid-layout": "^0.16.6"
   },
   "scripts": {

@@ -20,10 +20,6 @@ const toTitleCase = (str) => {
 const checkUndefined = (obj, key) => obj !== undefined ? obj[key] : ''
 export const Popup = (props) => {
   const {form, formattedData, closePopup, handleChange} = props
-  const { name } = form
-  console.log(
-    'formattedData => ', deepKeys(formattedData)
-  )
   const keySelect = deepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, ' ')).replace(/Id/g, 'ID'), value: item}))
   // const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
   return <div className={'lightboxwrap'} >

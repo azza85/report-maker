@@ -21,15 +21,8 @@ const removeFromObj = (obj, items) => {
   }, {})
 }
 
-const myData = {
-  selectedplayer,
-  disciplineAction,
-  squad,
-  match,
-  matchDetails,
-  matchPlayerStatsTeam,
-  matchTeamStatsTeam
-}
+const myData = {}
+const listData = {}
 /*
 * loop through these fields to make objects by this id where defined
 * console.log('test',Object.keys(test).map(item => test[item]))
@@ -39,6 +32,6 @@ const myData = {
 
 const myJoinFields = [{field: 'member_id', object: 'member'}, {field: 'match_id', object: ''}]
 ReactDOM.render(
-  <App data={myData} joinFields={myJoinFields} />,
+  <App data={myData} listData={listData} joinFields={myJoinFields} />,
   document.getElementById('root'))
 registerServiceWorker()
