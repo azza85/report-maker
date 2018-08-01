@@ -22,11 +22,11 @@ export const RenderDataTable = ({data, listData, elementData}) => {
       <tbody>
         {finalListData.map((item, index) => <tr key={index}>
           {rangeInclusive(cols).map(colItem => {
-            const setValue = elementData[`colval${colItem}`].split('.')[0] === 'memberDetails'
+            const setValue = elementData[`colval${colItem}`] !== undefined ? elementData[`colval${colItem}`].split('.')[0] === 'memberDetails'
               ? finalListData[index].member !== ''
                 ? memberDetails[finalListData[index].member.member_id][elementData[`colval${colItem}`].split('.')[1]]
                 : ''
-              : item[elementData[`colval${colItem}`]]
+              : item[elementData[`colval${colItem}`]] : ''
             return <td key={colItem}>{setValue}</td>
           }
           )}

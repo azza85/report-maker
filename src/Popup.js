@@ -52,6 +52,11 @@ export const Popup = (props) => {
           {name: 'right', value: 'right'},
           {name: 'center', value: 'center'}
         ]} />
+        <PopupSelect handleChange={handleChange} name={'fontWeight'} value={form.fontWeight} label={'Font Weight'} options={[
+          {name: '', value: ''},
+          {name: 'bold', value: 'bold'},
+          {name: 'normal', value: 'normal'}
+        ]} />
         <PopupSelect handleChange={handleChange} name={'signLine'} value={form.signLine} label={'Sign Line'} options={[
           {name: '', value: ''},
           {name: 'Top', value: 'top'},
