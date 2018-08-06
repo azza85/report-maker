@@ -4,11 +4,14 @@ import rangeInclusive from 'range-inclusive'
 export const RenderDataTable = ({data, listData, elementData}) => {
   const setListData = listData[elementData['listData']]
   const { memberDetails } = data
-  const { fontSize, align, cols, maxRows } = elementData
+  const { fontSize, align, cols, maxRows, filter, sortBy } = elementData
   const setSize = fontSize !== undefined ? {fontSize: parseInt(fontSize, 10)} : {}
   const setAlign = align !== undefined ? {textAlign: align} : {}
   const setStyle = {...setSize, ...setAlign}
-  const finalListData = rangeInclusive(maxRows).map((item, index) => setListData[index] !== undefined ? setListData[index] : Object.keys(setListData[0]).reduce((obj, rItem) => {
+  const filterSetListData = filter !== undefined && filter !== '' ? setListData.filter(item => item[filter]) : setListData
+  const sortedSetListData = sortBy !== undefined && sortBy !== '' ? filterSetListData.sort((a, b) => parseInt(a[sortBy], 10) - parseInt(b[sortBy], 10)) : filterSetListData
+
+  const finalListData = rangeInclusive(maxRows).map((item, index) => sortedSetListData[index] !== undefined ? sortedSetListData[index] : Object.keys(sortedSetListData[0]).reduce((obj, rItem) => {
     return {
       ...obj,
       [rItem]: ''

@@ -19,50 +19,50 @@ const toTitleCase = (str) => {
 
 const checkUndefined = (obj, key) => obj !== undefined ? obj[key] : ''
 export const Popup = (props) => {
-  const {form, formattedData, closePopup, handleChange} = props
-  const keySelect = deepKeys(formattedData).map(item => ({name: toTitleCase(item.replace(/[._]/g, ' ')).replace(/Id/g, 'ID'), value: item}))
+  const {form, formattedData, closePopup, handleChange, handleChangeSelect} = props
+  const keySelect = deepKeys(formattedData).map(item => ({value: item, label: toTitleCase(item.replace(/[._]/g, ' ')).replace(/Id/g, 'ID')}))
   // const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'}>
       <div className={'lightboxContent'}>
         <PopupText question={'Name'} name={'name'} value={form.name} handleChange={handleChange} />
-        <PopupSelect handleChange={handleChange} name={'type'} value={form.type} label={'Type'} options={[
-          {name: '', value: ''},
-          {name: 'Label', value: 'label'},
-          {name: 'Data Field', value: 'dataField'},
-          {name: 'Data Table', value: 'dataTable'},
-          {name: 'Manual Table', value: 'manualTable'},
-          {name: 'Paragraph', value: 'paragraph'},
-          {name: 'Image', value: 'image'}
+        <PopupSelect handleChange={handleChangeSelect} fieldName={'type'} value={form.type} label={'Type'} options={[
+          {label: '', value: ''},
+          {value: 'label', label: 'Label'},
+          {label: 'Data Field', value: 'dataField'},
+          {label: 'Data Table', value: 'dataTable'},
+          {label: 'Table', value: 'table'},
+          {label: 'Paragraph', value: 'paragraph'},
+          {label: 'Image', value: 'image'}
         ]} />
-        {form.type === 'dataField' && <PopupSelect handleChange={handleChange} name={'dataField'} value={form.dataField} label={'Data Field'} options={keySelect} />}
-        <PopupSelect handleChange={handleChange} name={'fontSize'} value={form.fontSize} label={'Font Size'} options={[
-          {name: '', value: ''},
-          {name: '8px', value: 8},
-          {name: '10px', value: 10},
-          {name: '12px', value: 12},
-          {name: '14px', value: 14},
-          {name: '16px', value: 16},
-          {name: '18px', value: 18},
-          {name: '20px', value: 20}
+        {form.type === 'dataField' && <PopupSelect handleChange={handleChangeSelect} fieldName={'dataField'} value={form.dataField} label={'Data Field'} options={keySelect} />}
+        <PopupSelect handleChange={handleChangeSelect} fieldName={'fontSize'} value={form.fontSize} label={'Font Size'} options={[
+          {label: '', value: ''},
+          {label: '8px', value: 8},
+          {label: '10px', value: 10},
+          {label: '12px', value: 12},
+          {label: '14px', value: 14},
+          {label: '16px', value: 16},
+          {label: '18px', value: 18},
+          {label: '20px', value: 20}
         ]} />
-        <PopupSelect handleChange={handleChange} name={'align'} value={form.align} label={'Text Align'} options={[
-          {name: '', value: ''},
-          {name: 'left', value: 'left'},
-          {name: 'right', value: 'right'},
-          {name: 'center', value: 'center'}
+        <PopupSelect handleChange={handleChangeSelect} fieldName={'align'} value={form.align} label={'Text Align'} options={[
+          {label: '', value: ''},
+          {label: 'left', value: 'left'},
+          {label: 'right', value: 'right'},
+          {label: 'center', value: 'center'}
         ]} />
-        <PopupSelect handleChange={handleChange} name={'fontWeight'} value={form.fontWeight} label={'Font Weight'} options={[
-          {name: '', value: ''},
-          {name: 'bold', value: 'bold'},
-          {name: 'normal', value: 'normal'}
+        <PopupSelect handleChange={handleChangeSelect} fieldName={'fontWeight'} value={form.fontWeight} label={'Font Weight'} options={[
+          {label: '', value: ''},
+          {label: 'bold', value: 'bold'},
+          {label: 'normal', value: 'normal'}
         ]} />
-        <PopupSelect handleChange={handleChange} name={'signLine'} value={form.signLine} label={'Sign Line'} options={[
-          {name: '', value: ''},
-          {name: 'Top', value: 'top'},
-          {name: 'Right', value: 'right'},
-          {name: 'Bottom', value: 'bottom'},
-          {name: 'Left', value: 'left'}
+        <PopupSelect handleChange={handleChangeSelect} fieldName={'signLine'} value={form.signLine} label={'Sign Line'} options={[
+          {label: '', value: ''},
+          {label: 'Top', value: 'top'},
+          {label: 'Right', value: 'right'},
+          {label: 'Bottom', value: 'bottom'},
+          {label: 'Left', value: 'left'}
         ]} />
         <TableConfigs {...props} />
       </div>
