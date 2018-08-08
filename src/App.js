@@ -7,7 +7,7 @@ import { RenderComponent } from './RenderComponent'
 class App extends Component {
   constructor (props) {
     super(props)
-    const baseArr = [0, 1, 2, 3, 4]
+    const baseArr = []
 
     this.state = {
       currentItem: '',
@@ -36,6 +36,7 @@ class App extends Component {
     this.cellProperties = this.cellProperties.bind(this)
     this.closePopup = this.closePopup.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleChangeSelect = this.handleChangeSelect.bind(this)
     this.onLayoutChange = this.onLayoutChange.bind(this)
     this.listToObjectByID = this.listToObjectByID.bind(this)
     this.converArrayToObj = this.converArrayToObj.bind(this)
@@ -124,6 +125,18 @@ class App extends Component {
       }
     })
   }
+  handleChangeSelect (e, name) {
+    this.setState({
+      itemData: {
+        ...this.state.itemData,
+        [this.state.currentItem]: {
+          ...this.state.itemData[this.state.currentItem],
+          [name]: e.value
+        }
+      }
+
+    })
+  }
 
   onAddItem () {
     this.setState({
@@ -185,7 +198,7 @@ class App extends Component {
             {this.state.items.map(el => this.createElement(el))}
           </ReactGridLayout>
           {showPopup
-            ? <Popup listData={listData} formattedData={formattedData} form={itemData[currentItem]} handleChange={this.handleChange} closePopup={this.closePopup} /> : null}
+            ? <Popup listData={listData} formattedData={formattedData} form={itemData[currentItem]} handleChange={this.handleChange} handleChangeSelect={this.handleChangeSelect} closePopup={this.closePopup} /> : null}
         </div>
         <pre>{JSON.stringify(this.state.items, null, ' ')}</pre>
         <pre>{JSON.stringify(this.state.itemData, null, ' ')}</pre>
