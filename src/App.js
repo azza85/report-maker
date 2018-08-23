@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import ReactGridLayout from 'react-grid-layout'
-import deepKeys from 'deep-keys'
 import { Popup } from './Popup'
 import { RenderComponent } from './RenderComponent'
+import getBaseArr from './api/getBaseArr'
+import getItemData from './api/getItemData'
 
 class App extends Component {
   constructor (props) {
     super(props)
-    const baseArr = []
-
+    const baseArr = getBaseArr()
     this.state = {
       currentItem: '',
       readOnly: false,
@@ -25,7 +25,7 @@ class App extends Component {
           add: key + 1 === (list.length - 1).toString()
         }
       }),
-      itemData: {},
+      itemData: getItemData(),
       newCounter: baseArr.length,
       showPopup: false,
       textFields: ['label'],
@@ -178,13 +178,8 @@ class App extends Component {
     })
   }
   render () {
-    const { data, listData } = this.props
-    const { cols, rowHeight, showPopup, readOnly,
-      itemData, currentItem } = this.state
-    const formattedData = {
-      ...data
-      // ...this.converArrayToObj(data, joinFields)
-    }
+    const { listData, listFields, objectFields } = this.props
+    const { cols, rowHeight, showPopup, readOnly, itemData, currentItem } = this.state
 
     return (
       <div>
@@ -198,7 +193,7 @@ class App extends Component {
             {this.state.items.map(el => this.createElement(el))}
           </ReactGridLayout>
           {showPopup
-            ? <Popup listData={listData} formattedData={formattedData} form={itemData[currentItem]} handleChange={this.handleChange} handleChangeSelect={this.handleChangeSelect} closePopup={this.closePopup} /> : null}
+            ? <Popup objectFields={objectFields} listFields={listFields} listData={listData} form={itemData[currentItem]} handleChange={this.handleChange} handleChangeSelect={this.handleChangeSelect} closePopup={this.closePopup} /> : null}
         </div>
         <pre>{JSON.stringify(this.state.items, null, ' ')}</pre>
         <pre>{JSON.stringify(this.state.itemData, null, ' ')}</pre>

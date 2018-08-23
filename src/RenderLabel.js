@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 export const RenderLabel = ({data}) => {
-  const { name, align, fontSize, fontWeight, signLine } = data
+  const { name, align, fontSize, fontWeight, signLine, addBorder } = data
   const setSize = fontSize !== undefined ? {fontSize: parseInt(fontSize, 10)} : {}
   const setAlign = align !== undefined ? {textAlign: align} : {}
   const setWeight = fontWeight !== undefined ? {fontWeight: fontWeight} : {}
+  const setBorder = addBorder !== undefined && addBorder === 'yes' ? {border: '1px solid #000'} : {}
+  const setStyle = {...setSize, ...setAlign, ...setWeight}
+
   let setLine = {
     div: {},
-    wrap: {}
+    wrap: { display: 'flex', height: '100%', flexDirection: 'column', justifyContent: 'center' }
   }
   if (signLine === 'right') {
     setLine = {
@@ -30,8 +33,7 @@ export const RenderLabel = ({data}) => {
       wrap: { display: 'flex', height: '100%', flexDirection: 'column-reverse' }
     }
   }
-  const setStyle = {...setSize, ...setAlign, ...setWeight}
-  return <div style={setLine.wrap}>
+  return <div style={{...setLine.wrap, ...setBorder}}>
     {name !== undefined ? <div style={setStyle}>{name}</div> : null}
     {signLine !== undefined ? <div style={setLine.div} /> : null}
   </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import Select from 'react-select'
 
 export const PopupSelect = ({label, fieldName, value, options, handleChange}) => {
@@ -22,7 +22,8 @@ export const PopupSelect = ({label, fieldName, value, options, handleChange}) =>
   return <div>
     <div>{label}</div>
     <Select onChange={(e) => handleChange(e, fieldName)}
-      defaultValue={defaultValue}
+      isClearable={false}
+      defaultValue={defaultValue} className={'react-select'}
       name={fieldName} options={options} />
   </div>
 }

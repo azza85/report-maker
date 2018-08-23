@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+
 import rangeInclusive from 'range-inclusive'
 
 export const RenderTable = ({data, listData, elementData}) => {
@@ -10,7 +11,7 @@ export const RenderTable = ({data, listData, elementData}) => {
   const setStyle = {...setSize, ...setAlign}
 
   const finalListData = rangeInclusive(maxRows).map((item, rowIndex) => rangeInclusive(cols).map((col, colIndex) => hasNumber ? rowIndex > 0 ? (rowIndex * cols) + (colIndex + 1) : colIndex + 1 : ''))
-  return <div>
+  return <Fragment>
     {finalListData.length ? <table style={setStyle}>
       <tbody>
         {finalListData.map((rowItem, rowIndex) =>
@@ -18,5 +19,5 @@ export const RenderTable = ({data, listData, elementData}) => {
         )}
       </tbody>
     </table> : null}
-  </div>
+  </Fragment>
 }

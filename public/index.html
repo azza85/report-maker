@@ -126,18 +126,20 @@ custom style
 .lightbox{
   background: #fff;
   display: flex;
-  width: 90%;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
 }
 .lightboxContent {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: start;
     padding: 10px;
 }
 .lightboxContent > div {
+  padding: 0 20px
+}
+.lightboxContent > div > div {
   padding: 0 0 20px 0
 }
 .properties, .remove{
@@ -170,6 +172,9 @@ table {
 table td, table th {
   border: 1px solid #000;
   height: 20px;
+}
+.react-select {
+  width: 300px;
 }
 
 @media print {
