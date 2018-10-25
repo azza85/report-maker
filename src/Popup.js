@@ -25,6 +25,7 @@ export const Popup = (props) => {
   // const keySelect = [{name: '',value:''},{name: 'team 1 Name', value: 'matchDetails.team1.name' }]
   const tableSetting = isInArray(form.type, ['dataTable', 'table'])
   const isDataDrivenField = isInArray(form.type, ['dataTable', 'dataField'])
+  const isLabel = isInArray(form.type, ['label'])
   return <div className={'lightboxwrap'} >
     <div className={'lightbox'}>
       <div className={'lightboxContent'}>
@@ -66,7 +67,7 @@ export const Popup = (props) => {
             {label: 'yes', value: 'yes'},
             {label: 'no', value: 'no'}
           ]} />
-          {isDataDrivenField && <PopupSelect handleChange={handleChangeSelect} fieldName={'signLine'} value={form.signLine} label={'Sign Line'} options={[
+          {(isDataDrivenField || isLabel) && <PopupSelect handleChange={handleChangeSelect} fieldName={'signLine'} value={form.signLine} label={'Sign Line'} options={[
             {label: '', value: ''},
             {label: 'Top', value: 'top'},
             {label: 'Right', value: 'right'},
@@ -74,7 +75,7 @@ export const Popup = (props) => {
             {label: 'Left', value: 'left'}
           ]} />}
         </div>
-        <div>{tableSetting ? <TableConfigs {...props} /> : null}</div>
+        <div style={{flex: 1}}>{tableSetting ? <TableConfigs {...props} /> : null}</div>
       </div>
       <span
         className='remove'

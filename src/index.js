@@ -10,6 +10,7 @@ import getSelectedPlayer from './api/getSelectedPlayer'
 import getTeamOfficial from './api/getTeamOfficial'
 import getMatchOfficial from './api/getMatchOfficial'
 import getLogo from './api/getLogo'
+import { getMemberDetails, memberDetailObject, selectedPlayerDetails } from './helpers/utils'
 
 const isInArray = (value, array) => {
   if (array !== undefined && value) {
@@ -48,56 +49,38 @@ const get12HourTime = (timestamp) => {
   }
 }
 
-const calcAge = (dateYYYYMMDD) => {
-  /* dateYYYYMMDD - YYYY-MM-DD */
-  const birthday = new Date(dateYYYYMMDD)
-  const ageDifMs = Date.now() - birthday.getTime()
-  const ageDate = new Date(ageDifMs) // miliseconds from epoch
-  return Math.abs(ageDate.getUTCFullYear() - 1970)
-}
-
 const disciplineAction = getDisciplineAction()
 const matchData = getMatchData()
-
-const customMatchData = {
-  matchDate: getYYYYMMDD(matchData.match_datetime),
-  matchTime: get12HourTime(matchData.match_datetime),
-  currentTeam: matchData.team1.name,
-  matchup: `${matchData.team1.name} vs ${matchData.team2.name}`
-}
-const match = {
-  ...matchData,
-  ...customMatchData
-}
-
 const selectedplayer = getSelectedPlayer()
 const teamOfficial = getTeamOfficial().map(item => ({...item, member: item.official_response_data.member}))
 const matchOfficial = getMatchOfficial()
-
+const getSelectedPlayerDetails = selectedPlayerDetails(selectedplayer)
 const squad = getSquad()
 const team1Logo = getLogo()
-const memberFields = {name: '', age: '', dob: '', nationality: '', id: ''}
-const memberDetailObject = (item) => ({
-  name: `${item.member.first_name} ${item.member.last_name}`,
-  age: calcAge(item.member.dob),
-  dob: item.member.dob,
-  nationality: item.member.nationality,
-  id: item.member.fifaconnect_id })
 
-const getMemberDetails = (data, memberType) => {
-  return data.map(item => item.members_response_data[memberType].reduce((obj, item) => {
-    return {
-      ...obj,
-      [item.member.member_id]: memberDetailObject(item)
-    }
-  }, {}))
-}
-const squadPlayerDetails = getMemberDetails(squad, 'players')
-const squadOfficialDetails = getMemberDetails(squad, 'officials')
+const squadPlayerDetails = getMemberDetails(squad, 'players', getSelectedPlayerDetails)
+const squadOfficialDetails = getMemberDetails(squad, 'officials', getSelectedPlayerDetails)
+
+const selectedplayerData = selectedplayer.map(item => item.member.member_id)
+const teamOfficialData = teamOfficial.map(item => item.member.member_id)
+const matchOfficialData = matchOfficial.map(item => item.official_response_data.member.member_id)
+const squadPlayersData = Object.keys(squadPlayerDetails[0])
+const squadOfficialsData = Object.keys(squadOfficialDetails[0])
+
 const matchOfficialDetails = matchOfficial.reduce((obj, item) => {
   return {
     ...obj,
-    [item.official_response_data.member.member_id]: memberDetailObject(item.official_response_data)
+    [item.official_response_data.member.member_id]: {
+      ...memberDetailObject(item.official_response_data, getSelectedPlayerDetails),
+      roleID: item.official_request_data.role_id
+    }
+  }
+}, {})
+
+const matchOfficialByRole = matchOfficial.reduce((obj, item) => {
+  return {
+    ...obj,
+    [item.official_request_data.role_id]: item.official_response_data.member.member_id
   }
 }, {})
 
@@ -106,38 +89,78 @@ const memberDetails = {
   ...squadOfficialDetails[0],
   ...matchOfficialDetails
 }
-console.log('memberDetails', memberDetails)
+const getMatchOfficialByRole = (roleID) => matchOfficialByRole[roleID] !== undefined ? memberDetails[matchOfficialByRole[roleID]].name : ''
+const customMatchData = {
+  match_Date: getYYYYMMDD(matchData.match_datetime),
+  match_Time: get12HourTime(matchData.match_datetime),
+  current_Team: matchData.team1.name,
+  matchup: `${matchData.team1.name} vs ${matchData.team2.name}`,
+  referee: getMatchOfficialByRole(12),
+  referee_Ast_1: getMatchOfficialByRole(13),
+  referee_Ast_2: getMatchOfficialByRole(17),
+  referee_Ast_4: getMatchOfficialByRole(14),
+  reserve_Assistant_Referee: getMatchOfficialByRole(18),
+  match_Commissioner: getMatchOfficialByRole(15),
+  general_Coordinator: getMatchOfficialByRole(16),
+  team1_Head_Coach: 'HDCH',
+  team2_Head_Coach: 'HDCH',
+  team1_Manager: 'TMGR',
+  team2_Manager: 'TMGR'
+}
+const match = {
+  ...matchData,
+  ...customMatchData
+}
+
 /*
 const selectedplayer = {}
 const disciplineAction = {}
 const squad = {}
 const match = {}
 */
-const matchDetails = removeFromObj(match, ['players_match_data', 'teams_match_data'])
-const matchPlayerStatsTeam = [match.players_match_data]
-const matchTeamStatsTeam = [match.teams_match_data.teams]
+const match_Details = removeFromObj(match, ['players_match_data', 'teams_match_data'])
+const matchPlayerStatsTeam = match.players_match_data
+const matchTeamStatsTeam = match.teams_match_data.teams.reduce((obj, item) => {
+  return {
+    ...obj,
+    [item.team_id]: item
+  }
+}, {})
+const playerStatsByTeam = matchPlayerStatsTeam.reduce((obj, item) => {
+  return {
+    ...obj,
+    [item.team_id]: item.players
+  }
+}, {})
 
-const myData = {
-  // disciplineAction,
-  // squad: squad[0],
-  matchDetails: matchDetails,
-  memberDetails
-  // matchPlayerStatsTeam,
-  // matchTeamStatsTeam
-}
-const objectFields = {
-  matchDetails
-}
-
+const memberFields = {name: '', age: '', dob: '', nationality: '', id: ''}
+const playerFields = { ...memberFields, position: '', isStarting: '', isCaptain: '', playerNumber: '' }
+const cardFields = {minute: '', minute_add: '', player_id: ''}
 const listFields = {
+  selectedplayerData: playerFields,
+  squadPlayersData: memberFields,
+  squadOfficialsData: memberFields,
+  teamOfficialData: memberFields,
+  matchOfficialData: memberFields,
+  // disciplineAction: memberFields,
+  yellow_cards: cardFields,
+  red_cards: cardFields,
+  goals: {minute: '', minute_add: '', player_id: '', type: ''},
+  substitutes: {minute: '', minute_add: '', sub_off: '', sub_on: ''}
+}
+
+const objectFields = {
+  match_Details,
   memberDetails
 }
+
 const listData = {
-  selectedplayer,
-  squad,
-  teamOfficial,
-  matchOfficial,
-  disciplineAction
+  selectedplayerData,
+  squadPlayersData,
+  squadOfficialsData,
+  teamOfficialData,
+  matchOfficialData
+  // disciplineAction
 }
 /*
 * loop through these fields to make objects by this id where defined
@@ -145,9 +168,10 @@ const listData = {
 * each item in myData that is array will loop through and create by object
 * for fields with objects
 */
-
+console.log({listFields, listData, objectFields, matchTeamStatsTeam, playerStatsByTeam})
 const myJoinFields = [{field: 'member_id', object: 'member'}, {field: 'match_id', object: ''}]
+// joinFields={myJoinFields}
 ReactDOM.render(
-  <App data={myData} listFields={listFields} listData={listData} objectFields={objectFields} joinFields={myJoinFields} />,
+  <App listFields={listFields} listData={listData} objectFields={objectFields} />,
   document.getElementById('root'))
 registerServiceWorker()

@@ -74,24 +74,17 @@ class App extends Component {
 
   createElement (el) {
     const { itemData } = this.state
-    const removeStyle = {
-      position: 'absolute',
-      right: '2px',
-      top: 0,
-      cursor: 'pointer'
-    }
     const i = el.add ? '+' : el.i
     const elementData = itemData[i] !== undefined ? itemData[i] : {}
     return <div className={'grabbable'} key={i} data-grid={el}>
       <span
+        className='remove'
+        onClick={this.onRemoveItem.bind(this, i)}
+      >&#10006;</span>
+      <span
         className='properties'
         onClick={this.cellProperties.bind(this, el)}
       >&#9881;</span>
-      <span
-        className='remove'
-        style={removeStyle}
-        onClick={this.onRemoveItem.bind(this, i)}
-      >&#10006;</span>
       <RenderComponent {...this.props} elementData={elementData} />
     </div>
   }
@@ -192,8 +185,12 @@ class App extends Component {
             className='layout' cols={cols} rowHeight={rowHeight} width={794}>
             {this.state.items.map(el => this.createElement(el))}
           </ReactGridLayout>
-          {showPopup
-            ? <Popup objectFields={objectFields} listFields={listFields} listData={listData} form={itemData[currentItem]} handleChange={this.handleChange} handleChangeSelect={this.handleChangeSelect} closePopup={this.closePopup} /> : null}
+          {showPopup ? <Popup objectFields={objectFields} listFields={listFields} listData={listData} form={itemData[currentItem]} handleChange={this.handleChange} handleChangeSelect={this.handleChangeSelect} closePopup={this.closePopup} /> : null}
+          <ul className={'list'}>
+            {!readOnly && <button onClick={this.onAddItem}>{'Add Field'}</button>}
+            <button onClick={this.onPrintView}>{'Toggle Print View'}</button>
+          </ul>
+
         </div>
         <pre>{JSON.stringify(this.state.items, null, ' ')}</pre>
         <pre>{JSON.stringify(this.state.itemData, null, ' ')}</pre>

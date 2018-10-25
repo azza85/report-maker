@@ -115,26 +115,42 @@ custom style
 }
 .lightboxwrap{
   background: rgb(0,0,0,0.2);
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
   height: 100%;
+  /*
+  height: 150%;
   flex-direction: column;
   justify-content: center;
   position: absolute;
   top:0;
   display: flex;
   width: 100%;
+  */
 }
-.lightbox{
-  background: #fff;
+.lightbox {
+    background: #fff;
+    margin: 5%;
+    position: fixed;
+    width: 90%;
+    height: 90%;
+  /*
   display: flex;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
+  */
 }
 .lightboxContent {
+  padding: 10px;
+  display: flex;
+  /*
     display: flex;
     flex-direction: row;
     justify-content: start;
-    padding: 10px;
+  */
 }
 .lightboxContent > div {
   padding: 0 20px
@@ -142,15 +158,17 @@ custom style
 .lightboxContent > div > div {
   padding: 0 0 20px 0
 }
-.properties, .remove{
-  cursor: pointer
-}
-.properties {
+.lightbox .remove {
+  top: 10px;
+  right: 10px;
   position: absolute;
-  right: 15px;
-  top: -2px;
+}
+.properties, .remove{
+  height: 20px;
+  width: 20px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
+  text-align: center;
 }
 .remove, .properties {
   float: right

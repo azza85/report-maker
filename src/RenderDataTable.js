@@ -1,6 +1,15 @@
 import React from 'react'
 import rangeInclusive from 'range-inclusive'
 
+const formatDataValue = ({elementData, colItem, memberDetails, item}) => {
+  console.log({elementData, colItem, memberDetails, item})
+
+  const setValue = elementData[`colval${colItem}`] !== undefined
+    ? memberDetails[item][elementData[`colval${colItem}`].split('.')[1]]
+    : ''
+  // : item[elementData[`colval${colItem}`]] : ''
+  return setValue
+}
 export const RenderDataTable = ({data, listData, elementData}) => {
   const setListData = listData[elementData['listData']]
   const { memberDetails } = data
@@ -10,13 +19,13 @@ export const RenderDataTable = ({data, listData, elementData}) => {
   const setStyle = {...setSize, ...setAlign}
   const filterSetListData = filter !== undefined && filter !== '' ? setListData.filter(item => item[filter]) : setListData
   const sortedSetListData = sortBy !== undefined && sortBy !== '' ? filterSetListData.sort((a, b) => parseInt(a[sortBy], 10) - parseInt(b[sortBy], 10)) : filterSetListData
-
   const finalListData = rangeInclusive(maxRows).map((item, index) => sortedSetListData[index] !== undefined ? sortedSetListData[index] : Object.keys(sortedSetListData[0]).reduce((obj, rItem) => {
     return {
       ...obj,
       [rItem]: ''
     }
   }, {}))
+
   return <div>
     {finalListData.length ? <table style={setStyle}>
       <thead>
@@ -25,12 +34,7 @@ export const RenderDataTable = ({data, listData, elementData}) => {
       <tbody>
         {finalListData.map((item, index) => <tr key={index}>
           {rangeInclusive(cols).map(colItem => {
-            const setValue = elementData[`colval${colItem}`] !== undefined ? elementData[`colval${colItem}`].split('.')[0] === 'memberDetails'
-              ? (finalListData[index].member !== '' && finalListData[index].member !== undefined)
-                ? memberDetails[finalListData[index].member.member_id][elementData[`colval${colItem}`].split('.')[1]]
-                : ''
-              : item[elementData[`colval${colItem}`]] : ''
-
+            const setValue = formatDataValue({index, elementData, colItem, finalListData, memberDetails, item})
             return <td key={colItem}>{setValue}</td>
           }
           )}
